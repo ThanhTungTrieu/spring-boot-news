@@ -1,5 +1,7 @@
 package com.springbootweb.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -8,6 +10,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import java.util.Date;
 
+@Getter
+@Setter
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -30,25 +34,5 @@ public abstract class BaseEntity {
     @Column(name = "modifiedBy")
     @LastModifiedBy
     protected String modifiedBy;
-
-    public Long getId() {
-        return id;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
 
 }

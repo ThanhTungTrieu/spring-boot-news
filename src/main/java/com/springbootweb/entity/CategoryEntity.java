@@ -1,9 +1,14 @@
 package com.springbootweb.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "category")
 public class CategoryEntity extends BaseEntity {
@@ -14,19 +19,7 @@ public class CategoryEntity extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    public String getName() {
-        return name;
-    }
+    @OneToMany(mappedBy = "category")
+    private List<NewsEntity> newsList = new ArrayList<>();
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 }
