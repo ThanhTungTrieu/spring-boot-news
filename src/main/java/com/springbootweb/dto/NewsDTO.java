@@ -1,23 +1,16 @@
 package com.springbootweb.dto;
 
-public class NewsDTO {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class NewsDTO extends AbstractDTO {
 
     private String title;
+    private String thumbnail;
+    private String shortDescription;
     private String content;
+    private String categoryCode;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }
