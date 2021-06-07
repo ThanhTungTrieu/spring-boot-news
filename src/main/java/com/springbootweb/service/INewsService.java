@@ -5,4 +5,5 @@ import com.springbootweb.dto.NewsDTO;
 public interface INewsService {
 
     NewsDTO save(NewsDTO newsDTO);
+    void delete(long[] ids);
 }
