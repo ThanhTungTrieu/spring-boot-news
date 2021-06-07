@@ -19,7 +19,7 @@ public class CategoryEntity extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<NewsEntity> newsList = new ArrayList<>();
 
 }
