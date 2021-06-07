@@ -28,4 +28,11 @@ public class CategoryService implements ICategoryService {
         }
         return categoryConverter.toDTO(categoryRepository.save(categoryEntity));
     }
+
+    @Override
+    public void delete(long[] ids) {
+        for (long id: ids) {
+            categoryRepository.delete(id);
+        }
+    }
 }

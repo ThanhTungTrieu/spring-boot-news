@@ -5,4 +5,5 @@ import com.springbootweb.dto.CategoryDTO;
 public interface ICategoryService {
 
     CategoryDTO save(CategoryDTO categoryDTO);
+    void delete(long[] ids);
 }

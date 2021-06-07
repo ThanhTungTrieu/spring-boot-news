@@ -3,10 +3,7 @@ package com.springbootweb.api;
 import com.springbootweb.dto.CategoryDTO;
 import com.springbootweb.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CategoryAPI {
@@ -22,5 +19,10 @@ public class CategoryAPI {
     @PutMapping(value = "/category")
     public CategoryDTO updateCategory(@RequestBody CategoryDTO updatedCategoryDTO) {
         return categoryService.save(updatedCategoryDTO);
+    }
+
+    @DeleteMapping(value = "/category")
+    public void deleteCategory(@RequestBody long[] ids) {
+        categoryService.delete(ids);
     }
 }
