@@ -1,5 +1,6 @@
 package com.springbootweb.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
@@ -15,6 +16,7 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class BaseEntity {
 
+    @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
