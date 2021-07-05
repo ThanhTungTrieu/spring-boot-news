@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NewsDTO extends AbstractDTO {
+public class NewsDTO extends AbstractDTO<NewsDTO> {
 
     private String title;
     private String thumbnail;

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CategoryDTO extends AbstractDTO{
+public class CategoryDTO extends AbstractDTO<CategoryDTO> {
 
     public String name;
     public String code;
