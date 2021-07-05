@@ -46,6 +46,16 @@ public class NewsService implements INewsService {
     }
 
     @Override
+    public List<NewsDTO> findAll() {
+        List<NewsEntity> entities = newsRepository.findAll();
+        List<NewsDTO> newsDTOS = new ArrayList<>();
+        for (NewsEntity item: entities) {
+            newsDTOS.add(newsConverter.toDTO(item));
+        }
+        return newsDTOS;
+    }
+
+    @Override
     public List<NewsDTO> findAll(Pageable pageable) {
         List<NewsEntity> entities = newsRepository.findAll(pageable).getContent();
         List<NewsDTO> newsDTOS = new ArrayList<>();
