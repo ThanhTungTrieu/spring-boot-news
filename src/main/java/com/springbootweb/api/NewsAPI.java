@@ -15,6 +15,13 @@ public class NewsAPI {
     @Autowired
     private INewsService newsService;
 
+    @GetMapping(value = "/news-all")
+    public NewsOutput getAll() {
+        NewsOutput newsOutput = new NewsOutput();
+        newsOutput.setListResult(newsService.findAll());
+        return newsOutput;
+    }
+
     @GetMapping(value = "/news")
     public NewsOutput getPageableNews(@RequestParam int page, @RequestParam int maxItemInOnePage) {
         NewsOutput newsOutput = new NewsOutput();
