@@ -7,10 +7,13 @@ import com.springbootweb.entity.NewsEntity;
 import com.springbootweb.repository.CategoryRepository;
 import com.springbootweb.repository.NewsRepository;
 import com.springbootweb.service.INewsService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class NewsService implements INewsService {
@@ -40,5 +43,20 @@ public class NewsService implements INewsService {
         for (long id: ids) {
             newsRepository.delete(id);
         }
+    }
+
+    @Override
+    public List<NewsDTO> findAll(Pageable pageable) {
+        List<NewsEntity> entities = newsRepository.findAll(pageable).getContent();
+        List<NewsDTO> newsDTOS = new ArrayList<>();
+        for (NewsEntity item: entities) {
+            newsDTOS.add(newsConverter.toDTO(item));
+        }
+        return newsDTOS;
+    }
+
+    @Override
+    public int totalItem() {
+        return (int) newsRepository.count();
     }
 }
