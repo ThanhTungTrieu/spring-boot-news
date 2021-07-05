@@ -2,29 +2,23 @@ package com.springbootweb.converter;
 
 import com.springbootweb.dto.CategoryDTO;
 import com.springbootweb.entity.CategoryEntity;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CategoryConverter {
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public CategoryDTO toDTO(CategoryEntity categoryEntity) {
-        CategoryDTO result = new CategoryDTO();
-        result.setId(categoryEntity.getId());
-        result.setName(categoryEntity.getName());
-        result.setCode(categoryEntity.getCode());
+        CategoryDTO result = modelMapper.map(categoryEntity, CategoryDTO.class);
         return result;
     }
 
     public CategoryEntity toEntity(CategoryDTO categoryDTO) {
-        CategoryEntity result = new CategoryEntity();
-        result.setCode(categoryDTO.getCode());
-        result.setName(categoryDTO.getName());
-        return result;
-    }
-
-    public CategoryEntity toEntity(CategoryEntity result, CategoryDTO categoryDTO) {
-        result.setCode(categoryDTO.getCode());
-        result.setName(categoryDTO.getName());
+        CategoryEntity result = modelMapper.map(categoryDTO, CategoryEntity.class);
         return result;
     }
 }
