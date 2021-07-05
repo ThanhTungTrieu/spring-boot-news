@@ -18,9 +18,10 @@ public class CategoryAPI {
         return categoryService.save(categoryDTO);
     }
 
-    @PutMapping(value = "/category")
+    @PutMapping(value = "/category/{id}")
     @Transactional
-    public CategoryDTO updateCategory(@RequestBody CategoryDTO updatedCategoryDTO) {
+    public CategoryDTO updateCategory(@RequestBody CategoryDTO updatedCategoryDTO, @PathVariable("id") long id) {
+        updatedCategoryDTO.setId(id);
         return categoryService.save(updatedCategoryDTO);
     }
 
