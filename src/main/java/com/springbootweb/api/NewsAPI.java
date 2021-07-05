@@ -15,15 +15,9 @@ public class NewsAPI {
     @Autowired
     private INewsService newsService;
 
-    @GetMapping(value = "/news-all")
-    public NewsOutput getAll() {
-        NewsOutput newsOutput = new NewsOutput();
-        newsOutput.setListResult(newsService.findAll());
-        return newsOutput;
-    }
-
     @GetMapping(value = "/news")
-    public NewsOutput getPageableNews(@RequestParam int page, @RequestParam int maxItemInOnePage) {
+    public NewsOutput getPageableNews(@RequestParam(value = "page", defaultValue = "1") int page,
+                                      @RequestParam(value = "maxItemInOnePage", defaultValue = "1000") int maxItemInOnePage) {
         NewsOutput newsOutput = new NewsOutput();
         newsOutput.setPage(page);
         newsOutput.setTotalPage((int) Math.ceil((double) newsService.totalItem() / maxItemInOnePage));
