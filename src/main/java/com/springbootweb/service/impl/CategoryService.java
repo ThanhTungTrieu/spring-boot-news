@@ -12,20 +12,14 @@ import org.springframework.stereotype.Service;
 public class CategoryService implements ICategoryService {
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryConverter categoryConverter;
 
     @Autowired
-    private CategoryConverter categoryConverter;
+    private CategoryRepository categoryRepository;
 
     @Override
     public CategoryDTO save(CategoryDTO categoryDTO) {
-        CategoryEntity categoryEntity = new CategoryEntity();
-        if (categoryDTO.getId() != null) {
-            CategoryEntity oldCategory = categoryRepository.findOne(categoryDTO.getId());
-            categoryEntity = categoryConverter.toEntity(oldCategory, categoryDTO);
-        } else {
-            categoryEntity = categoryConverter.toEntity(categoryDTO);
-        }
+        CategoryEntity categoryEntity = categoryConverter.toEntity(categoryDTO);
         return categoryConverter.toDTO(categoryRepository.save(categoryEntity));
     }
 
