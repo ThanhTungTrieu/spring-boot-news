@@ -13,10 +13,10 @@ import java.util.List;
 @Table(name = "user")
 public class UserEntity extends BaseEntity {
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "fullname")
@@ -25,7 +25,7 @@ public class UserEntity extends BaseEntity {
     @Column(name = "status")
     private Integer status;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "roleId"))
