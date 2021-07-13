@@ -9,14 +9,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: Roles in entity to DTO does not match with authorities in Security
-//TODO: idk what is going on. Authenticated successfully but cannot have authorization
-//TODO: issue on role cannot match
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
@@ -24,18 +22,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private IUserService userService;
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException, NullPointerException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
         UserDTO user = userService.findByUsernameAndPassword(username, password);
+        if (user == null) {
+            throw new UsernameNotFoundException("Incorrect username or password!");
+        }
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (String role: user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role));
-            System.out.println(role);
         }
-//        authorities.add(new SimpleGrantedAuthority("USER"));
-
         return new UsernamePasswordAuthenticationToken(username, password, authorities);
     }
 
