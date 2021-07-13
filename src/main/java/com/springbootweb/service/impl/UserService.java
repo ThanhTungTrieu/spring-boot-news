@@ -43,7 +43,6 @@ public class UserService implements IUserService {
         List<String> roles = new ArrayList<>();
         for (RoleEntity roleEntity: userEntity.getRoles()) {
             roles.add(roleEntity.getCode());
-            System.out.println(roleEntity.getCode());
         }
 
         userDTO = userConverter.toDTO(userEntity);
