@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class UserAPI {
 
@@ -19,9 +22,18 @@ public class UserAPI {
 //        return result;
 //    }
 
+    @PostMapping(value = "/admin-user")
+    @Transactional
+    public UserDTO createAdminUser(@RequestBody UserDTO adminDTO) {
+        return userService.save(adminDTO);
+    }
+
     @PostMapping(value = "/user")
     @Transactional
     public UserDTO createUser(@RequestBody UserDTO userDTO) {
+        List<String> role = new ArrayList<>();
+        role.add("USER");
+        userDTO.setRoles(role);
         return userService.save(userDTO);
     }
 
