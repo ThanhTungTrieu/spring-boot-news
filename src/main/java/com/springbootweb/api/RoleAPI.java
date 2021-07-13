@@ -34,7 +34,6 @@ public class RoleAPI {
 
     @GetMapping(value = "/test")
     public ResponseEntity<String> getTest() {
-        System.out.println("test git");
         return ResponseEntity.ok("success");
     }
 }
