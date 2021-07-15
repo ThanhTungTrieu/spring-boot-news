@@ -61,11 +61,13 @@ public class NewsService implements INewsService {
     @Override
     public List<NewsDTO> findAll(Pageable pageable) {
         List<NewsEntity> entities = newsRepository.findAll(pageable).getContent();
-        List<NewsDTO> newsDTOS = new ArrayList<>();
+        List<NewsDTO> newsDTOs = new ArrayList<>();
         for (NewsEntity item: entities) {
-            newsDTOS.add(newsConverter.toDTO(item));
+            NewsDTO newsDTO = newsConverter.toDTO(item);
+            newsDTO.setThumbnail(fileUploadUtil.getFileAsBase64(item.getThumbnail()));
+            newsDTOs.add(newsDTO);
         }
-        return newsDTOS;
+        return newsDTOs;
     }
 
     @Override

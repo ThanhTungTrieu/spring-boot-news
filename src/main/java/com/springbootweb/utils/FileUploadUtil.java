@@ -3,9 +3,9 @@ package com.springbootweb.utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.util.Base64;
 
 @Component
 public class FileUploadUtil {
@@ -26,5 +26,17 @@ public class FileUploadUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getFileAsBase64(String fullPath) {
+        File thumbnailFile = new File(fullPath);
+        String base64 = null;
+        try {
+            byte[] bytes = Files.readAllBytes(thumbnailFile.toPath());
+            base64 = Base64.getEncoder().encodeToString(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return base64;
     }
 }
