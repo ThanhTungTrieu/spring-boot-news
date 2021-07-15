@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.springbootweb.utils.FileUploadUtil;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -28,12 +30,23 @@ public class NewsService implements INewsService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private FileUploadUtil fileUploadUtil;
+
     @Override
     @Transactional
     public NewsDTO save(NewsDTO newsDTO) {
         CategoryEntity categoryEntity = categoryRepository.findOneByCode(newsDTO.getCategoryCode());
         NewsEntity newsEntity = newsConverter.toEntity(newsDTO);
         newsEntity.setCategory(categoryEntity);
+
+        //just png file
+        byte[] base64Thumbnail = Base64.getDecoder().decode(newsDTO.getThumbnail());
+        String thumbnailDirectory = "/thumbnail/" + newsDTO.getTitle() + ".png";
+        fileUploadUtil.writeOrUpdateFile(base64Thumbnail, thumbnailDirectory);
+
+        String returnedThumbnail = fileUploadUtil.root + thumbnailDirectory;
+        newsEntity.setThumbnail(returnedThumbnail);
         return newsConverter.toDTO(newsRepository.save(newsEntity));
     }
 
