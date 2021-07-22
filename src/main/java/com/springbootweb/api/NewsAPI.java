@@ -1,5 +1,6 @@
 package com.springbootweb.api;
 
+import com.springbootweb.api.input.NewsInput;
 import com.springbootweb.api.output.NewsOutput;
 import com.springbootweb.dto.NewsDTO;
 import com.springbootweb.service.INewsService;
@@ -8,6 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class NewsAPI {
@@ -26,17 +30,28 @@ public class NewsAPI {
         return newsOutput;
     }
 
+    @GetMapping(value = "/news/{id}")
+    public NewsOutput getOneNews(@PathVariable("id") long id) {
+        NewsOutput newsOutput = new NewsOutput();
+        newsOutput.setPage(1);
+        newsOutput.setTotalPage(1);
+        List<NewsDTO> results = new ArrayList<>();
+        results.add(newsService.findOneById(id));
+        newsOutput.setListResult(results);
+        return newsOutput;
+    }
+
     @PostMapping(value = "/news")
     @Transactional
-    public NewsDTO createNews(@RequestBody NewsDTO newsDTO) {
-        return newsService.save(newsDTO);
+    public NewsDTO createNews(@RequestBody NewsInput newsInput) {
+        return newsService.save(newsInput);
     }
 
     @PutMapping(value = "/news/{id}")
     @Transactional
-    public NewsDTO updateNews(@RequestBody NewsDTO updatedNewsDTO, @PathVariable("id") long id) {
-        updatedNewsDTO.setId(id);
-        return newsService.save(updatedNewsDTO);
+    public NewsDTO updateNews(@RequestBody NewsInput updatedNewsInput, @PathVariable("id") long id) {
+        updatedNewsInput.setId(id);
+        return newsService.save(updatedNewsInput);
     }
 
     @DeleteMapping(value = "/news")
