@@ -7,12 +7,12 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class AbstractDTO<T> {
+public abstract class AbstractDTO<T> {
 
-    private Long id;
-    private String createdBy;
-    private Date createdDate;
-    private String modifiedBy;
-    private Date modifiedDate;
+    protected Long id;
+    protected String createdBy;
+    protected Date createdDate;
+    protected String modifiedBy;
+    protected Date modifiedDate;
 
 }
