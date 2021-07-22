@@ -1,5 +1,6 @@
 package com.springbootweb.service.impl;
 
+import com.springbootweb.api.input.NewsInput;
 import com.springbootweb.converter.NewsConverter;
 import com.springbootweb.dto.NewsDTO;
 import com.springbootweb.entity.CategoryEntity;
@@ -7,6 +8,7 @@ import com.springbootweb.entity.NewsEntity;
 import com.springbootweb.repository.CategoryRepository;
 import com.springbootweb.repository.NewsRepository;
 import com.springbootweb.service.INewsService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,16 +35,20 @@ public class NewsService implements INewsService {
     @Autowired
     private FileUploadUtil fileUploadUtil;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     @Transactional
-    public NewsDTO save(NewsDTO newsDTO) {
+    public NewsDTO save(NewsInput newsInput) {
+        NewsDTO newsDTO = modelMapper.map(newsInput, NewsDTO.class);
         CategoryEntity categoryEntity = categoryRepository.findOneByCode(newsDTO.getCategoryCode());
         NewsEntity newsEntity = newsConverter.toEntity(newsDTO);
         newsEntity.setCategory(categoryEntity);
 
-        //just png file
-        byte[] base64Thumbnail = Base64.getDecoder().decode(newsDTO.getThumbnail());
-        String thumbnailDirectory = "/thumbnail/" + newsDTO.getTitle() + ".png";
+        //write file
+        byte[] base64Thumbnail = Base64.getDecoder().decode(newsInput.getThumbnail().getBase64());
+        String thumbnailDirectory = "/thumbnail/" + newsInput.getThumbnail().getName();
         fileUploadUtil.writeOrUpdateFile(base64Thumbnail, thumbnailDirectory);
 
         String returnedThumbnail = fileUploadUtil.root + thumbnailDirectory;
@@ -73,5 +79,13 @@ public class NewsService implements INewsService {
     @Override
     public int totalItem() {
         return (int) newsRepository.count();
+    }
+
+    @Override
+    public NewsDTO findOneById(long id) {
+        NewsEntity newsEntity = newsRepository.findOne(id);
+        NewsDTO newsDTO = newsConverter.toDTO(newsEntity);
+        newsDTO.setThumbnail(fileUploadUtil.getFileAsBase64(newsEntity.getThumbnail()));
+        return newsDTO;
     }
 }
