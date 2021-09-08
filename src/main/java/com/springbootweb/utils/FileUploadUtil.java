@@ -10,7 +10,7 @@ import java.util.Base64;
 @Component
 public class FileUploadUtil {
 
-    public final String root = "/home/thanhtungtrieu/Pictures/springboot";
+    public final String root = "C:/home/thanhtungtrieu/Pictures/springboot";
 
     public void writeOrUpdateFile(byte[] bytes, String path) {
         //file directory = root + path -> ex: /home/thanhtungtrieu/Pictures/springboot/abc.png
